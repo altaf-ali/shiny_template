@@ -1,3 +1,6 @@
+sapply(list.files(pattern = "_server.R"), source)
+sapply(list.files(pattern = "_ui.R"), source)
+
 # -----------------------------------------------------------------------------
 dashboard_name <- function(s, prefix = NULL) {
   paste(c(prefix, gsub("\\s|[[:punct:]]", "_", tolower(s))), collapse = "_")
@@ -10,21 +13,27 @@ dashboard_tab <- function(s) {
 
 # -----------------------------------------------------------------------------
 dashboard_menuItem <- function(item) {
-  menuItem(item$name, tabName = dashboard_tab(item$name), icon = item$icon)
+  menuItem(item$name, tabName = item$id, icon = item$icon)
 }
 
 # -----------------------------------------------------------------------------
 dashboard_conditionalMenuItem <- function(item) {
-  module_name <- dashboard_tab(item$name)
   conditionalPanel(
-    condition = sprintf("input.sidebar_menu == '%s'", module_name),
+    condition = sprintf("input.sidebar_menu == '%s'", item$id),
     hr(),
-    do.call(paste0(module_name, "_sidebar"), args = list(module_name))
+    do.call(paste0(module_name, "_sidebar"), args = list(item$id))
   )
 }
 
 # -----------------------------------------------------------------------------
 dashboard_tabItem <- function(item) {
-  module_name <- dashboard_name(item$name)
-  do.call(paste0(module_name, "_input"), args = list(module_name))
+  do.call(paste0(item$id, "_input"), args = list(item$id))
 }
+
+# -----------------------------------------------------------------------------
+dashboard_server <- function(modules) {
+  sapply(modules, function(item) { 
+    callModule(eval(as.symbol(paste0(item$id, "_server"))), id = item$id)
+  })
+}
+

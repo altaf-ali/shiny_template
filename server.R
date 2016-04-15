@@ -7,15 +7,15 @@
 library(shiny)
 library(shinydashboard)
 
+source("dashboard.R")
 source("config.R")
 
 shinyServer(function(input, output, session) {
   
   modules <- list(
+    TabItem_Home
   )
   
-  sapply(modules, function(item) { 
-    callModule(item$server, id = item$name) 
-  })
+  #dashboard_server(modules)
 })
 

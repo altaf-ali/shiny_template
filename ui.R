@@ -7,10 +7,8 @@
 library(shiny)
 library(shinydashboard)
 
-source("config.R")
 source("dashboard.R")
-
-sapply(list.files(pattern = "_ui.R"), source)
+source("config.R")
 
 dashboard_header <- dashboardHeader(title = APP_TITLE)
 
