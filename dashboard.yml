@@ -1,0 +1,11 @@
+title: Shiny Template
+
+modules:
+  home:
+    name: Home
+    icon: dashboard
+
+  settings:
+    name: Settings
+    icon: cogs
+

@@ -1,1 +1,1 @@
-# Shiny Template using shinydashboard
+# Shiny Template
